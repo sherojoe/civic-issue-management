@@ -58,3 +58,9 @@ The system enables residents to report local civic issues such as waste accumula
 - Complaint tracking
 - Department-based assignment
 - Complaint status updates
+## Technology Stack
+
+- Backend: Java Spring Boot
+- Database: MySQL
+- Frontend: Web Application
+- Version Control: Git and GitHub
