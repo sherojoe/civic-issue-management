@@ -47,3 +47,14 @@ The application allows residents to:
 
 ## 10. Chosen Track
 Java (Spring Boot)
+## Project Scope
+
+The system enables residents to report local civic issues such as waste accumulation, drainage blockages and sanitation problems. Complaints are recorded with location and image details and routed to the appropriate municipal department for resolution.
+
+## Key Features
+
+- Civic issue reporting
+- Photo and location upload
+- Complaint tracking
+- Department-based assignment
+- Complaint status updates
