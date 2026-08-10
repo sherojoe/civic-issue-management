@@ -1,0 +1,60 @@
+Table users {
+  id int [pk, increment]
+  name varchar
+  email varchar [unique]
+  password varchar
+  phone varchar
+  role varchar
+  created_at datetime
+}
+
+Table issues {
+  id int [pk, increment]
+  user_id int [ref: > users.id]
+  location_id int [ref: > locations.id]
+  department_id int [ref: > departments.id]
+  title varchar
+  description text
+  category varchar
+  status varchar
+  created_at datetime
+  updated_at datetime
+}
+
+Table issue_photos {
+  id int [pk, increment]
+  issue_id int [ref: > issues.id]
+  file_path varchar
+  uploaded_at datetime
+}
+
+Table locations {
+  id int [pk, increment]
+  address varchar
+  latitude decimal
+  longitude decimal
+}
+
+Table departments {
+  id int [pk, increment]
+  name varchar
+  description varchar
+}
+
+Table status_history {
+  id int [pk, increment]
+  issue_id int [ref: > issues.id]
+  updated_by int [ref: > users.id]
+  status varchar
+  remarks text
+  updated_at datetime
+}
+
+Table notifications {
+  id int [pk, increment]
+  user_id int [ref: > users.id]
+  issue_id int [ref: > issues.id]
+  message text
+  is_read boolean
+  created_at datetime
+}
