@@ -1,122 +1,172 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [alternateLogin, setAlternateLogin] = useState(false);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="login-page">
+
+      {/* LEFT SIDE */}
+      <div className="login-left">
+        <div className="brand">
+          <div className="brand-icon">🏙️</div>
+          <span>CivicCare</span>
         </div>
-        <div>
-          <h1>Get started</h1>
+
+        <div className="hero-content">
+          <h1>
+            Make your community
+            <span> better.</span>
+          </h1>
+
           <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
+            Report civic issues, track complaints, and work together
+            to build a cleaner and better community.
           </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+          <div className="hero-points">
+            <div>✓ Report issues easily</div>
+            <div>✓ Track complaint status</div>
+            <div>✓ Connect with authorities</div>
+          </div>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      </div>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      {/* RIGHT SIDE */}
+      <div className="login-right">
+        <div className="login-card">
+
+          {!alternateLogin ? (
+            <>
+              <div className="card-icon">👋</div>
+
+              <h2>Welcome to CivicCare</h2>
+
+              <p className="subtitle">
+                Sign in to report and track civic issues
+              </p>
+
+              <form>
+                <div className="input-group">
+                  <label>Full Name</label>
+                  <input
+                    type="text"
+                    placeholder="Enter your name"
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label>Address</label>
+                  <input
+                    type="text"
+                    placeholder="Enter your address"
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label>Email Address</label>
+                  <input
+                    type="email"
+                    placeholder="Enter your email address"
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label>Phone Number</label>
+                  <input
+                    type="tel"
+                    placeholder="Enter your phone number"
+                  />
+                </div>
+
+                <button type="submit" className="login-btn">
+                  Continue
+                </button>
+              </form>
+
+              <div className="divider">
+                <span>OR</span>
+              </div>
+
+              <button
+                className="alternate-btn"
+                onClick={() => setAlternateLogin(true)}
+              >
+                📱 Try another way
+              </button>
+
+              <p className="help-text">
+                Don't have an email address? No problem.
+              </p>
+            </>
+          ) : (
+            <>
+              <button
+                className="back-btn"
+                onClick={() => setAlternateLogin(false)}
+              >
+                ← Back
+              </button>
+
+              <div className="card-icon">📱</div>
+
+              <h2>Sign in with your phone</h2>
+
+              <p className="subtitle">
+                No email? No problem. Use your phone number.
+              </p>
+
+              <form>
+                <div className="input-group">
+                  <label>Full Name</label>
+                  <input
+                    type="text"
+                    placeholder="Enter your name"
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label>Phone Number</label>
+                  <input
+                    type="tel"
+                    placeholder="Enter your phone number"
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label>Address</label>
+                  <input
+                    type="text"
+                    placeholder="Enter your address"
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label>OTP</label>
+                  <input
+                    type="text"
+                    placeholder="Enter 6-digit OTP"
+                    maxLength="6"
+                  />
+                </div>
+
+                <button type="submit" className="login-btn">
+                  Verify & Continue
+                </button>
+              </form>
+
+              <p className="help-text">
+                We'll send a verification code to your phone.
+              </p>
+            </>
+          )}
+
+        </div>
+      </div>
+
+    </div>
+  );
 }
 
-export default App
+export default App;
