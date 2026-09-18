@@ -1,9 +1,12 @@
 import "./ReportIssue.css";
 
-function ReportIssue({ address }) {
+function ReportIssue({ address, onBack }) {
   return (
     <div className="report-page">
       <div className="report-header">
+        <button onClick={onBack} className="back-button">
+  ← Back to Dashboard
+</button>
         <h1>Report a Civic Issue</h1>
         <p>Help your community by reporting an issue.</p>
       </div>

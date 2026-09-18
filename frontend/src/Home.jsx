@@ -41,7 +41,12 @@ const greeting =
   hour < 17 ? "Good Afternoon" :
   "Good Evening";
   if (showReport) {
-  return <ReportIssue address={address} />;
+return (
+  <ReportIssue
+    address={address}
+    onBack={() => setShowReport(false)}
+  />
+);
 }
   const complaints = [
     {
@@ -83,7 +88,12 @@ const greeting =
 
         <nav className="sidebar-nav">
           <div className="nav-item active">🏠 <span>Home</span></div>
-          <div className="nav-item">📝 <span>Report Issue</span></div>
+          <div
+  className="nav-item"
+  onClick={() => setShowReport(true)}
+>
+  📝 <span>Report Issue</span>
+</div>
           <div className="nav-item">📋 <span>My Complaints</span></div>
           <div className="nav-item">🗺️ <span>Map View</span></div>
           <div className="nav-item">👤 <span>Profile</span></div>
