@@ -6,8 +6,9 @@ function App() {
   const [alternateLogin, setAlternateLogin] = useState(false);
   const [showHome, setShowHome] = useState(false);
   const [userAddress, setUserAddress] = useState("");
+  const [userName, setUserName] = useState("");
   if (showHome) {
-  return <Home address={userAddress} />;
+  return <Home name={userName} address={userAddress} />;
 }
 
   return (
@@ -55,6 +56,8 @@ function App() {
 
               <form onSubmit={(e) => {
   e.preventDefault();
+  const name = e.currentTarget.elements.name.value;
+setUserName(name);
   const address = e.currentTarget.elements.address.value;
   setUserAddress(address);
   setShowHome(true);
@@ -62,9 +65,10 @@ function App() {
                 <div className="input-group">
                   <label>Full Name</label>
                   <input
-                    type="text"
-                    placeholder="Enter your name"
-                  />
+  type="text"
+  name="name"
+  placeholder="Enter your full name"
+/>
                 </div>
 
                 <div className="input-group">

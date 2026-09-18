@@ -1,6 +1,48 @@
 import "./Home.css";
+import { useEffect, useState } from "react";
+import ReportIssue from "./ReportIssue";
 
-function Home({ address }) {
+function Home({ name, address }) {
+  const [temperature, setTemperature] = useState(null);
+  const [showReport, setShowReport] = useState(false);
+  useEffect(() => {
+  const getWeather = async () => {
+    try {
+      const locationResponse = await fetch(
+        `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(address)}&count=1`
+      );
+
+      const locationData = await locationResponse.json();
+
+      if (!locationData.results?.length) return;
+
+      const { latitude, longitude } = locationData.results[0];
+
+      const weatherResponse = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m`
+      );
+
+      const weatherData = await weatherResponse.json();
+
+      setTemperature(Math.round(weatherData.current.temperature_2m));
+    } catch (error) {
+      console.error("Weather error:", error);
+    }
+  };
+
+  if (address) {
+    getWeather();
+  }
+}, [address]);
+  const hour = new Date().getHours();
+
+const greeting =
+  hour < 12 ? "Good Morning" :
+  hour < 17 ? "Good Afternoon" :
+  "Good Evening";
+  if (showReport) {
+  return <ReportIssue address={address} />;
+}
   const complaints = [
     {
       title: "Waste dumping near park",
@@ -76,7 +118,7 @@ function Home({ address }) {
             <div className="avatar">SJ</div>
 
             <div>
-              <strong>Sherin Joe</strong>
+              <strong>{name}</strong>
               <small>Citizen</small>
             </div>
           </div>
@@ -85,7 +127,7 @@ function Home({ address }) {
         {/* WELCOME */}
         <section className="welcome-section">
           <div>
-            <p className="welcome-small">Good Morning, Sherin Joe 👋</p>
+            <p className="welcome-small">{greeting}, {name} 👋</p>
 
             <h1>Make your community better.</h1>
 
@@ -95,13 +137,16 @@ function Home({ address }) {
             </p>
 
             <div className="location">
-              📍 {address} &nbsp; • &nbsp; ☀️ 28°C
+              📍 {address} &nbsp; • &nbsp; ☀️ {temperature !== null ? `${temperature}°C` : "Loading..."}
             </div>
           </div>
 
-          <button className="report-button">
-            + Report New Issue
-          </button>
+          <button
+  className="report-button"
+  onClick={() => setShowReport(true)}
+>
+  + Report New Issue
+</button>
         </section>
 
         {/* STAT CARDS */}
