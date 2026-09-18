@@ -1,8 +1,14 @@
 import { useState } from "react";
 import "./App.css";
+import Home from "./Home";
 
 function App() {
   const [alternateLogin, setAlternateLogin] = useState(false);
+  const [showHome, setShowHome] = useState(false);
+  const [userAddress, setUserAddress] = useState("");
+  if (showHome) {
+  return <Home address={userAddress} />;
+}
 
   return (
     <div className="login-page">
@@ -47,7 +53,12 @@ function App() {
                 Sign in to report and track civic issues
               </p>
 
-              <form>
+              <form onSubmit={(e) => {
+  e.preventDefault();
+  const address = e.currentTarget.elements.address.value;
+  setUserAddress(address);
+  setShowHome(true);
+}}>
                 <div className="input-group">
                   <label>Full Name</label>
                   <input
@@ -57,12 +68,13 @@ function App() {
                 </div>
 
                 <div className="input-group">
-                  <label>Address</label>
-                  <input
-                    type="text"
-                    placeholder="Enter your address"
-                  />
-                </div>
+  <label>Address</label>
+  <input
+    type="text"
+    name="address"
+    placeholder="Enter your address"
+  />
+</div>
 
                 <div className="input-group">
                   <label>Email Address</label>
@@ -137,9 +149,10 @@ function App() {
                 <div className="input-group">
                   <label>Address</label>
                   <input
-                    type="text"
-                    placeholder="Enter your address"
-                  />
+  type="text"
+  name="address"
+  placeholder="Enter your address"
+/>
                 </div>
 
                 <div className="input-group">
@@ -168,5 +181,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
