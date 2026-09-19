@@ -5,7 +5,44 @@ function ReportIssue({ address, onBack }) {
   const [submitted, setSubmitted] = useState(false);
   const [issueType, setIssueType] = useState("");
   const [description, setDescription] = useState("");
-  const [photo, setPhoto] = useState(null);
+
+  const submitComplaint = async () => {
+    if (!issueType) {
+      alert("Please select an issue type.");
+      return;
+    }
+
+    if (!description.trim()) {
+      alert("Please describe the issue.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:8080/api/issues", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          issueType: issueType,
+          description: description,
+          location: address || "Not provided",
+          status: "Pending"
+        })
+      });
+
+      if (!response.ok) {
+        alert("Failed to submit complaint.");
+        return;
+      }
+
+      setSubmitted(true);
+
+    } catch (error) {
+      alert("Backend connection failed.");
+      console.error(error);
+    }
+  };
 
   if (submitted) {
     return (
@@ -27,6 +64,7 @@ function ReportIssue({ address, onBack }) {
 
   return (
     <div className="report-page">
+
       <div className="report-header">
         <button onClick={onBack} className="back-button">
           ← Back to Dashboard
@@ -37,6 +75,7 @@ function ReportIssue({ address, onBack }) {
       </div>
 
       <div className="report-card">
+
         <div className="form-group">
           <label>Issue Type</label>
 
@@ -62,7 +101,7 @@ function ReportIssue({ address, onBack }) {
             rows="5"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-          ></textarea>
+          />
         </div>
 
         <div className="form-group">
@@ -76,43 +115,13 @@ function ReportIssue({ address, onBack }) {
           />
         </div>
 
-        <div className="form-group">
-          <label>Upload Photo</label>
-
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setPhoto(e.target.files[0])}
-          />
-
-          <small>Upload a photo as evidence of the issue.</small>
-        </div>
-
         <button
           className="submit-report"
-          onClick={() => {
-            if (!issueType) {
-              alert("Please select an issue type.");
-              return;
-            }
-
-            if (!description.trim()) {
-              alert("Please describe the issue.");
-              return;
-            }
-
-            console.log({
-              issueType,
-              description,
-              location: address,
-              photo,
-            });
-
-            setSubmitted(true);
-          }}
+          onClick={submitComplaint}
         >
           Submit Complaint
         </button>
+
       </div>
     </div>
   );
