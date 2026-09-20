@@ -1,10 +1,57 @@
 import "./ReportIssue.css";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 function ReportIssue({ address, onBack }) {
   const [submitted, setSubmitted] = useState(false);
   const [issueType, setIssueType] = useState("");
   const [description, setDescription] = useState("");
+  const videoRef = useRef(null);
+  const [cameraOpen, setCameraOpen] = useState(false);
+  const [photo, setPhoto] = useState(null);
+
+const openCamera = async () => {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: "environment" }
+    });
+
+    setCameraOpen(true);
+
+    setTimeout(() => {
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+    }, 100);
+
+  } catch (error) {
+    alert("Camera access denied or unavailable.");
+    console.error(error);
+  }
+};
+
+
+  const capturePhoto = () => {
+    const video = videoRef.current;
+
+    const canvas = document.createElement("canvas");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    const context = canvas.getContext("2d");
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    const imageData = canvas.toDataURL("image/jpeg");
+
+    setPhoto(imageData);
+
+    const stream = video.srcObject;
+
+    if (stream) {
+      stream.getTracks().forEach((track) => track.stop());
+    }
+
+    setCameraOpen(false);
+  };
 
   const submitComplaint = async () => {
     if (!issueType) {
@@ -27,7 +74,8 @@ function ReportIssue({ address, onBack }) {
           issueType: issueType,
           description: description,
           location: address || "Not provided",
-          status: "Pending"
+          status: "Pending",
+          photo: photo
         })
       });
 
@@ -102,6 +150,60 @@ function ReportIssue({ address, onBack }) {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
+        </div>
+
+        <div className="form-group">
+          <label>Photo Evidence</label>
+
+          {!cameraOpen && !photo && (
+            <button
+              type="button"
+              className="submit-report"
+              onClick={openCamera}
+            >
+              📷 Open Camera
+            </button>
+          )}
+
+          {cameraOpen && (
+            <>
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                style={{
+                  width: "100%",
+                  borderRadius: "12px",
+                  marginTop: "10px"
+                }}
+              />
+
+              <button
+                type="button"
+                className="submit-report"
+                onClick={capturePhoto}
+              >
+                📸 Capture Photo
+              </button>
+            </>
+          )}
+
+          {photo && (
+            <div style={{ marginTop: "12px" }}>
+              <img
+                src={photo}
+                alt="Captured evidence"
+                style={{
+                  width: "100%",
+                  borderRadius: "12px"
+                }}
+              />
+
+              <p style={{ marginTop: "8px", color: "#16a34a" }}>
+                ✅ Photo captured successfully
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="form-group">

@@ -1,12 +1,73 @@
 import { useState } from "react";
 import "./App.css";
 import Home from "./Home";
+import AuthorityDashboard from "./AuthorityDashboard";
 
 function App() {
   const [alternateLogin, setAlternateLogin] = useState(false);
   const [showHome, setShowHome] = useState(false);
   const [userAddress, setUserAddress] = useState("");
   const [userName, setUserName] = useState("");
+ const [showAuthority, setShowAuthority] = useState(false);
+const [authorityLoggedIn, setAuthorityLoggedIn] = useState(false);
+if (showAuthority && !authorityLoggedIn) {
+  return (
+    <div className="login-page">
+      <div className="login-card">
+        <div className="card-icon">👨‍💼</div>
+
+        <h2>Authority Login</h2>
+
+        <p className="subtitle">
+          Sign in to manage civic complaints
+        </p>
+
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+
+            const email = e.currentTarget.elements.email.value;
+            const password = e.currentTarget.elements.password.value;
+
+            if (
+              email === "authority@civiccare.com" &&
+              password === "admin123"
+            ) {
+              setAuthorityLoggedIn(true);
+            } else {
+              alert("Invalid authority credentials");
+            }
+          }}
+        >
+          <div className="input-group">
+            <label>Email Address</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter authority email"
+            />
+          </div>
+
+          <div className="input-group">
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter password"
+            />
+          </div>
+
+          <button type="submit" className="login-btn">
+            Login
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+  if (authorityLoggedIn) {
+  return <AuthorityDashboard />;
+}
   if (showHome) {
   return <Home name={userName} address={userAddress} />;
 }
@@ -115,6 +176,13 @@ setUserName(name);
               <p className="help-text">
                 Don't have an email address? No problem.
               </p>
+              <button
+  type="button"
+  className="alternate-btn"
+  onClick={() => setShowAuthority(true)}
+>
+  👨‍💼 Authority Dashboard
+</button>
             </>
           ) : (
             <>

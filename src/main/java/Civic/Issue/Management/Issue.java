@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 
 @Entity
 public class Issue {
@@ -16,6 +17,9 @@ public class Issue {
     private String description;
     private String location;
     private String status;
+    @Lob
+    private String photo;
+    private String submittedAt;
 
     public Issue() {
     }
@@ -62,4 +66,11 @@ public class Issue {
     public void setStatus(String status) {
         this.status = status;
     }
+    public String getSubmittedAt() {
+    return submittedAt;
+}
+
+public void setSubmittedAt(String submittedAt) {
+    this.submittedAt = submittedAt;
+}
 }

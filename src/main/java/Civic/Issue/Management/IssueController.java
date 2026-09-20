@@ -19,6 +19,7 @@ public class IssueController {
         if (issue.getStatus() == null || issue.getStatus().isEmpty()) {
             issue.setStatus("Pending");
         }
+        issue.setSubmittedAt(java.time.LocalDateTime.now().toString());
 
         return issueRepository.save(issue);
     }

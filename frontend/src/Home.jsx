@@ -4,6 +4,7 @@ import ReportIssue from "./ReportIssue";
 
 function Home({ name, address }) {
   const [temperature, setTemperature] = useState(null);
+  const [complaints, setComplaints] = useState([]);
   const [showReport, setShowReport] = useState(false);
   useEffect(() => {
   const getWeather = async () => {
@@ -34,6 +35,14 @@ function Home({ name, address }) {
     getWeather();
   }
 }, [address]);
+useEffect(() => {
+  fetch("http://localhost:8080/api/issues")
+    .then((response) => response.json())
+    .then((data) => setComplaints(data))
+    .catch((error) => {
+      console.error("Failed to fetch complaints:", error);
+    });
+}, []);
   const hour = new Date().getHours();
 
 const greeting =
@@ -48,33 +57,7 @@ return (
   />
 );
 }
-  const complaints = [
-    {
-      title: "Waste dumping near park",
-      location: "Main Road, Anna Nagar",
-      status: "Pending",
-    },
-    {
-      title: "Drainage blockage",
-      location: "Lake View Road, West Mambalam",
-      status: "In Progress",
-    },
-    {
-      title: "Pothole on main road",
-      location: "T. Nagar, Chennai",
-      status: "Resolved",
-    },
-    {
-      title: "Street light not working",
-      location: "3rd Cross Street, Adyar",
-      status: "Pending",
-    },
-    {
-      title: "Overflowing garbage bins",
-      location: "Velachery, Chennai",
-      status: "Resolved",
-    },
-  ];
+  
 
   return (
     <div className="dashboard">
@@ -166,7 +149,7 @@ return (
             <div className="stat-icon blue">📋</div>
             <div>
               <span>Total Complaints</span>
-              <h2>5</h2>
+              <h2>{complaints.length}</h2>
             </div>
           </div>
 
@@ -174,7 +157,7 @@ return (
             <div className="stat-icon orange">⏳</div>
             <div>
               <span>Pending</span>
-              <h2>2</h2>
+              <h2>{complaints.filter(c => c.status === "Pending").length}</h2>
             </div>
           </div>
 
@@ -182,7 +165,7 @@ return (
             <div className="stat-icon purple">🔄</div>
             <div>
               <span>In Progress</span>
-              <h2>1</h2>
+              <h2>{complaints.filter(c => c.status === "In Progress").length}</h2>
             </div>
           </div>
 
@@ -190,7 +173,7 @@ return (
             <div className="stat-icon green">✓</div>
             <div>
               <span>Resolved</span>
-              <h2>2</h2>
+             <h2>{complaints.filter(c => c.status === "Resolved").length}</h2>
             </div>
           </div>
 
@@ -223,7 +206,7 @@ return (
                   </div>
 
                   <div className="complaint-info">
-                    <h3>{complaint.title}</h3>
+                    <h3>{complaint.issueType}</h3>
                     <p>📍 {complaint.location}</p>
                   </div>
 
