@@ -48,6 +48,18 @@ function AuthorityDashboard() {
             <p>📍 {complaint.location}</p>
 
             <strong>Status: {complaint.status}</strong>
+            {complaint.photo && (
+  <img
+    src={complaint.photo}
+    alt="Complaint evidence"
+    style={{
+      width: "100%",
+      maxWidth: "300px",
+      marginTop: "12px",
+      borderRadius: "10px"
+    }}
+  />
+)}
             <select
   value={complaint.status}
   onChange={(e) => {

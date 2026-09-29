@@ -73,4 +73,11 @@ public class Issue {
 public void setSubmittedAt(String submittedAt) {
     this.submittedAt = submittedAt;
 }
+public String getPhoto() {
+    return photo;
+}
+
+public void setPhoto(String photo) {
+    this.photo = photo;
+}
 }

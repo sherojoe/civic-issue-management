@@ -54,6 +54,7 @@ const openCamera = async () => {
   };
 
   const submitComplaint = async () => {
+    console.log("PHOTO BEFORE SUBMIT:", photo);
     if (!issueType) {
       alert("Please select an issue type.");
       return;

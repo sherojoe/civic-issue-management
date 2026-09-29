@@ -8,81 +8,114 @@ function App() {
   const [showHome, setShowHome] = useState(false);
   const [userAddress, setUserAddress] = useState("");
   const [userName, setUserName] = useState("");
- const [showAuthority, setShowAuthority] = useState(false);
-const [authorityLoggedIn, setAuthorityLoggedIn] = useState(false);
-if (showAuthority && !authorityLoggedIn) {
-  return (
-    <div className="login-page">
-      <div className="login-card">
-        <div className="card-icon">👨‍💼</div>
 
-        <h2>Authority Login</h2>
+  const [showAuthority, setShowAuthority] = useState(false);
+  const [authorityLoggedIn, setAuthorityLoggedIn] = useState(false);
 
-        <p className="subtitle">
-          Sign in to manage civic complaints
-        </p>
+  // =========================
+  // AUTHORITY LOGIN
+  // =========================
+  if (showAuthority && !authorityLoggedIn) {
+    return (
+      <div className="login-page">
+        <div className="login-card">
+          <div className="card-icon">👨‍💼</div>
 
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
+          <h2>Authority Login</h2>
 
-            const email = e.currentTarget.elements.email.value;
-            const password = e.currentTarget.elements.password.value;
+          <p className="subtitle">
+            Sign in to manage civic complaints
+          </p>
 
-            if (
-              email === "authority@civiccare.com" &&
-              password === "admin123"
-            ) {
-              setAuthorityLoggedIn(true);
-            } else {
-              alert("Invalid authority credentials");
-            }
-          }}
-        >
-          <div className="input-group">
-            <label>Email Address</label>
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter authority email"
-            />
-          </div>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
 
-          <div className="input-group">
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter password"
-            />
-          </div>
+              const email = e.currentTarget.elements.email.value;
+              const password = e.currentTarget.elements.password.value;
 
-          <button type="submit" className="login-btn">
-            Login
+              if (
+                email === "authority@civiccare.com" &&
+                password === "admin123"
+              ) {
+                setAuthorityLoggedIn(true);
+              } else {
+                alert("Invalid authority credentials");
+              }
+            }}
+          >
+            <div className="input-group">
+              <label>Email Address</label>
+
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter authority email"
+              />
+            </div>
+
+            <div className="input-group">
+              <label>Password</label>
+
+              <input
+                type="password"
+                name="password"
+                placeholder="Enter password"
+              />
+            </div>
+
+            <button type="submit" className="login-btn">
+              Login
+            </button>
+          </form>
+
+          <button
+            type="button"
+            className="alternate-btn"
+            onClick={() => setShowAuthority(false)}
+          >
+            ← Back to Citizen Login
           </button>
-        </form>
+        </div>
       </div>
-    </div>
-  );
-}
-  if (authorityLoggedIn) {
-  return <AuthorityDashboard />;
-}
-  if (showHome) {
-  return <Home name={userName} address={userAddress} />;
-}
+    );
+  }
 
+  // =========================
+  // AUTHORITY DASHBOARD
+  // =========================
+  if (authorityLoggedIn) {
+    return <AuthorityDashboard />;
+  }
+
+  // =========================
+  // CITIZEN HOME
+  // =========================
+  if (showHome) {
+    return (
+      <Home
+        name={userName}
+        address={userAddress}
+      />
+    );
+  }
+
+  // =========================
+  // LOGIN PAGE
+  // =========================
   return (
     <div className="login-page">
 
       {/* LEFT SIDE */}
       <div className="login-left">
+
         <div className="brand">
           <div className="brand-icon">🏙️</div>
           <span>CivicCare</span>
         </div>
 
         <div className="hero-content">
+
           <h1>
             Make your community
             <span> better.</span>
@@ -98,13 +131,18 @@ if (showAuthority && !authorityLoggedIn) {
             <div>✓ Track complaint status</div>
             <div>✓ Connect with authorities</div>
           </div>
+
         </div>
       </div>
 
       {/* RIGHT SIDE */}
       <div className="login-right">
+
         <div className="login-card">
 
+          {/* =========================
+              NORMAL LOGIN
+             ========================= */}
           {!alternateLogin ? (
             <>
               <div className="card-icon">👋</div>
@@ -115,51 +153,74 @@ if (showAuthority && !authorityLoggedIn) {
                 Sign in to report and track civic issues
               </p>
 
-              <form onSubmit={(e) => {
-  e.preventDefault();
-  const name = e.currentTarget.elements.name.value;
-setUserName(name);
-  const address = e.currentTarget.elements.address.value;
-  setUserAddress(address);
-  setShowHome(true);
-}}>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+
+                  const name =
+                    e.currentTarget.elements.name.value;
+
+                  const address =
+                    e.currentTarget.elements.address.value;
+
+                  if (!name || !address) {
+                    alert("Please enter your name and address.");
+                    return;
+                  }
+
+                  setUserName(name);
+                  setUserAddress(address);
+                  setShowHome(true);
+                }}
+              >
+
                 <div className="input-group">
                   <label>Full Name</label>
+
                   <input
-  type="text"
-  name="name"
-  placeholder="Enter your full name"
-/>
+                    type="text"
+                    name="name"
+                    placeholder="Enter your full name"
+                  />
                 </div>
 
                 <div className="input-group">
-  <label>Address</label>
-  <input
-    type="text"
-    name="address"
-    placeholder="Enter your address"
-  />
-</div>
+                  <label>Address</label>
+
+                  <input
+                    type="text"
+                    name="address"
+                    placeholder="Enter your address"
+                  />
+                </div>
 
                 <div className="input-group">
                   <label>Email Address</label>
+
                   <input
                     type="email"
+                    name="email"
                     placeholder="Enter your email address"
                   />
                 </div>
 
                 <div className="input-group">
                   <label>Phone Number</label>
+
                   <input
                     type="tel"
+                    name="phone"
                     placeholder="Enter your phone number"
                   />
                 </div>
 
-                <button type="submit" className="login-btn">
+                <button
+                  type="submit"
+                  className="login-btn"
+                >
                   Continue
                 </button>
+
               </form>
 
               <div className="divider">
@@ -167,6 +228,7 @@ setUserName(name);
               </div>
 
               <button
+                type="button"
                 className="alternate-btn"
                 onClick={() => setAlternateLogin(true)}
               >
@@ -176,17 +238,23 @@ setUserName(name);
               <p className="help-text">
                 Don't have an email address? No problem.
               </p>
+
               <button
-  type="button"
-  className="alternate-btn"
-  onClick={() => setShowAuthority(true)}
->
-  👨‍💼 Authority Dashboard
-</button>
+                type="button"
+                className="alternate-btn"
+                onClick={() => setShowAuthority(true)}
+              >
+                👨‍💼 Authority Dashboard
+              </button>
             </>
           ) : (
+
+            /* =========================
+               PHONE + DEMO OTP LOGIN
+               ========================= */
             <>
               <button
+                type="button"
                 className="back-btn"
                 onClick={() => setAlternateLogin(false)}
               >
@@ -201,49 +269,94 @@ setUserName(name);
                 No email? No problem. Use your phone number.
               </p>
 
-              <form>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+
+                  const name =
+                    e.currentTarget.elements.name.value;
+
+                  const phone =
+                    e.currentTarget.elements.phone.value;
+
+                  const address =
+                    e.currentTarget.elements.address.value;
+
+                  const otp =
+                    e.currentTarget.elements.otp.value;
+
+                  if (!name || !phone || !address || !otp) {
+                    alert("Please fill all details.");
+                    return;
+                  }
+
+                  // DEMO OTP
+                  if (otp === "123456") {
+                    setUserName(name);
+                    setUserAddress(address);
+                    setShowHome(true);
+                  } else {
+                    alert(
+                      "Invalid OTP. For demo, use 123456."
+                    );
+                  }
+                }}
+              >
+
                 <div className="input-group">
                   <label>Full Name</label>
+
                   <input
                     type="text"
+                    name="name"
                     placeholder="Enter your name"
                   />
                 </div>
 
                 <div className="input-group">
                   <label>Phone Number</label>
+
                   <input
                     type="tel"
+                    name="phone"
                     placeholder="Enter your phone number"
                   />
                 </div>
 
                 <div className="input-group">
                   <label>Address</label>
+
                   <input
-  type="text"
-  name="address"
-  placeholder="Enter your address"
-/>
+                    type="text"
+                    name="address"
+                    placeholder="Enter your address"
+                  />
                 </div>
 
                 <div className="input-group">
                   <label>OTP</label>
+
                   <input
                     type="text"
+                    name="otp"
                     placeholder="Enter 6-digit OTP"
                     maxLength="6"
                   />
                 </div>
 
-                <button type="submit" className="login-btn">
+                <button
+                  type="submit"
+                  className="login-btn"
+                >
                   Verify & Continue
                 </button>
+
               </form>
 
               <p className="help-text">
-                We'll send a verification code to your phone.
+                Demo OTP: <strong>123456</strong>
               </p>
+
             </>
           )}
 
@@ -253,4 +366,6 @@ setUserName(name);
     </div>
   );
 }
+
 export default App;
+
