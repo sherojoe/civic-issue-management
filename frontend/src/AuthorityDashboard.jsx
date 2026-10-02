@@ -1,3 +1,4 @@
+import { authorityFetch } from "./api";
 import "./AuthorityDashboard.css";
 import { useEffect, useState } from "react";
 
@@ -5,7 +6,7 @@ function AuthorityDashboard() {
   const [complaints, setComplaints] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/issues")
+    authorityFetch("/api/issues")
       .then((response) => response.json())
       .then((data) => setComplaints(data))
       .catch((error) => console.error(error));
@@ -65,8 +66,8 @@ function AuthorityDashboard() {
   onChange={(e) => {
     const newStatus = e.target.value;
 
-    fetch(
-      `http://localhost:8080/api/issues/${complaint.id}/status?status=${encodeURIComponent(newStatus)}`,
+    authorityFetch(
+      `/api/issues/${complaint.id}/status?status=${encodeURIComponent(newStatus)}`,
       {
         method: "PUT",
       }

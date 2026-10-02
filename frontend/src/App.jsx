@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import Home from "./Home";
 import AuthorityDashboard from "./AuthorityDashboard";
+import { authorityLogin } from "./api";
 
 function App() {
   const [alternateLogin, setAlternateLogin] = useState(false);
@@ -28,19 +29,17 @@ function App() {
           </p>
 
           <form
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
 
               const email = e.currentTarget.elements.email.value;
               const password = e.currentTarget.elements.password.value;
 
-              if (
-                email === "authority@civiccare.com" &&
-                password === "admin123"
-              ) {
+              try {
+                await authorityLogin(email, password);
                 setAuthorityLoggedIn(true);
-              } else {
-                alert("Invalid authority credentials");
+              } catch (error) {
+                alert(error.message);
               }
             }}
           >

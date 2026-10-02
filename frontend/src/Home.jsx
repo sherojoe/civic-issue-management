@@ -1,3 +1,4 @@
+import { API_BASE } from "./api";
 import "./Home.css";
 import { useEffect, useState } from "react";
 import ReportIssue from "./ReportIssue";
@@ -44,7 +45,7 @@ function Home({ name, address }) {
   }, [address]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/issues")
+    fetch(`${API_BASE}/api/issues`)
       .then((response) => response.json())
       .then((data) => setComplaints(data))
       .catch((error) => {

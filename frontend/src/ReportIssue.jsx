@@ -1,3 +1,4 @@
+import { API_BASE } from "./api";
 import "./ReportIssue.css";
 import { useState, useRef } from "react";
 
@@ -54,7 +55,6 @@ const openCamera = async () => {
   };
 
   const submitComplaint = async () => {
-    console.log("PHOTO BEFORE SUBMIT:", photo);
     if (!issueType) {
       alert("Please select an issue type.");
       return;
@@ -66,7 +66,7 @@ const openCamera = async () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/api/issues", {
+      const response = await fetch(`${API_BASE}/api/issues`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
