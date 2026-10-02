@@ -5,7 +5,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/issues")
-@CrossOrigin(origins = "*")
 public class IssueController {
 
     private final IssueRepository issueRepository;
@@ -16,9 +15,7 @@ public class IssueController {
 
     @PostMapping
     public Issue createIssue(@RequestBody Issue issue) {
-        if (issue.getStatus() == null || issue.getStatus().isEmpty()) {
-            issue.setStatus("Pending");
-        }
+        issue.setStatus("Pending");
         issue.setSubmittedAt(java.time.LocalDateTime.now().toString());
 
         return issueRepository.save(issue);
