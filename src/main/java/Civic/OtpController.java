@@ -4,8 +4,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.Random;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 @RestController
+@ConditionalOnProperty(name = "app.email.enabled", havingValue = "true")
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "*")
 public class OtpController {
@@ -31,10 +33,6 @@ public class OtpController {
         );
 
         emailService.sendOtpEmail(email, otp);
-
-        System.out.println(
-                "Generated OTP for " + email + ": " + otp
-        );
 
         return "OTP sent successfully";
     }
